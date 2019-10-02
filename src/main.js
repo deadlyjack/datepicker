@@ -183,7 +183,7 @@ function DatePicker(activator, options = {}) {
 
         if (date && events.onpick) {
             __date.date = parseInt(date);
-            const monthNumber = fixed(months.indexOf(__date.month), 2);
+            const monthNumber = fixed(months.indexOf(__date.month) + 1, 2);
             events.onpick({
                 ...__date,
                 monthNumber
