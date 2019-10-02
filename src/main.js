@@ -71,11 +71,13 @@ function DatePicker(activator, options = {}) {
 
         const {
             top,
+            right,
             left,
+            bottom,
             height
         } = this.getBoundingClientRect();
 
-        $calendar.style.cssText = `top:${top+height}px;left:${left}px`;
+        $calendar.style.cssText = `top:${bottom}px;right:${innerWidth-right}px`;
 
         let year = defaultDate.year;
         let month = defaultDate.month;
@@ -104,12 +106,17 @@ function DatePicker(activator, options = {}) {
 
         const calendar = $calendar.getBoundingClientRect();
         const diff = {
-            x: (calendar.left + calendar.width) - innerWidth,
+            x: calendar.width - calendar.right,
             y: (calendar.top + calendar.height) - innerHeight
         };
-        const y = diff.y > 0 ? diff.y : 0;
-        const x = diff.x > 0 ? diff.x : 0;
-        $calendar.style.transform = `translate(${-x}px, ${-y}px)`;
+        if (diff.x > 0) {
+            $calendar.style.right = null;
+            $calendar.style.left = left + 'px';
+        }
+        if (diff.y > 0) {
+            $calendar.style.top = null;
+            $calendar.style.bottom = (innerHeight - top) + 'px';
+        }
 
         document.onkeydown = function (e) {
             if (e.keyCode === 27 || e.which === 27) {
