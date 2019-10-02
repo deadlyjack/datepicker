@@ -25,7 +25,8 @@ function DatePicker(activator, options = {}) {
 
     const events = {
         onchange: () => {},
-        onpick: () => {}
+        onpick: () => {},
+        hide
     };
 
     const defaultDate = formate(options.defaultDate ? new Date(options.defaultDate) : new Date());
