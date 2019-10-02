@@ -1,0 +1,111 @@
+#__DatePicker {
+    height: fit-content;
+    width: fit-content;
+    background-color: #93f;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    box-shadow: 0 0 4px 1px rgba($color: #000000, $alpha: 0.4);
+
+    .__titlebar {
+        display: flex;
+        height: 40px;
+        align-items: center;
+        background-color: #93f;
+
+        .__title {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            font-weight: 600;
+
+            .__year {
+                background-color: inherit;
+                border: none;
+                color: white;
+                font-size: 1em;
+
+                option {
+                    color: black;
+                }
+            }
+
+            .__month {
+                text-transform: capitalize;
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .__content {
+        flex: 1;
+    }
+
+    .__table {
+        width: 100%;
+        height: calc(100% - 40px);
+
+        .__row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &.__head {
+                background-color: darken($color: #93f, $amount: 10);
+
+                span {
+                    text-transform: capitalize;
+                    font-weight: 600;
+                    font-size: 0.96em;
+                }
+            }
+
+            span {
+                display: flex;
+                height: 30px;
+                width: 30px;
+                align-items: center;
+                justify-content: center;
+                box-sizing: border-box;
+                user-select: none;
+                margin-left: 5px;
+
+                &:last-child {
+                    margin-right: 5px;
+                }
+
+                &.hilight {
+                    background-color: white;
+                    color: #93f;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+
+    button {
+        height: 40px;
+        width: 40px;
+        border: none;
+        background-color: inherit;
+
+        svg {
+            pointer-events: none;
+        }
+
+        &:focus {
+            outline: none;
+            background-color: rgba($color: #000000, $alpha: 0.2);
+        }
+
+        &:active {
+            svg {
+                transform: scale(0.9);
+            }
+        }
+
+        &.disabled {
+            opacity: 0.8;
+        }
+    }
+}
