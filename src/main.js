@@ -55,12 +55,26 @@ function DatePicker(activator, options = {}) {
             $content
         ]
     });
+    const $mask = tag('span', {
+        className: 'mask',
+        onclick: hide
+    });
 
-    document.body.appendChild($calendar);
+    activator.addEventListener('click', render);
 
-    render();
-
+    /**
+     * @this HTMLElement
+     */
     function render() {
+
+        const {
+            top,
+            left,
+            height
+        } = this.getBoundingClientRect();
+
+        $calendar.style.cssText = `top:${top+height}px;left:${left}px`;
+
         let year = defaultDate.year;
         let month = defaultDate.month;
 
@@ -82,6 +96,31 @@ function DatePicker(activator, options = {}) {
         $content.get(`[data-date='${defaultDate.date}']`).classList.add('hilight');
         $header.get('.__year').value = defaultDate.year;
         $header.get('.__year').onchange = handleChange;
+
+        document.body.appendChild($mask);
+        document.body.appendChild($calendar);
+
+        const calendar = $calendar.getBoundingClientRect();
+        const diff = {
+            x: (calendar.left + calendar.width) - innerWidth,
+            y: (calendar.top + calendar.height) - innerHeight
+        };
+        const y = diff.y > 0 ? diff.y : 0;
+        const x = diff.x > 0 ? diff.x : 0;
+        $calendar.style.transform = `translate(${-x}px, ${-y}px)`;
+
+        document.onkeydown = function (e) {
+            if (e.keyCode === 27 || e.which === 27) {
+                e.preventDefault();
+                hide();
+            }
+        };
+    }
+
+    function hide() {
+        $mask.remove();
+        $calendar.remove();
+        document.onkeydown = null;
     }
 
 

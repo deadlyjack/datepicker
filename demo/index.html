@@ -7,17 +7,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>date picker</title>
     <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .activator {
+            position: absolute;
+            right: 50px;
         }
     </style>
 </head>
 
 <body>
-
+    <button class="activator">datepicker</button>
     <script src="../dist/datepicker.js"></script>
     <script>
-        const picker = DatePicker(document.body, {
+        const picker = DatePicker('.activator', {
             minYear: 1970,
             maxYear: 2020
         });
