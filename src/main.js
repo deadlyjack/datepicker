@@ -38,6 +38,7 @@ function DatePicker(activator, options = {}) {
 
     delete __date.full;
 
+    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
     const minYear = options.minYear || defaultDate.year;
     const maxYear = options.maxYear || defaultDate.year;
     const $content = tag('div', {
@@ -129,7 +130,6 @@ function DatePicker(activator, options = {}) {
      * @param {MouseEvent} e 
      */
     function handleClick(e) {
-        const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
         const action = e.target.getAttribute('action');
         if (!action) return;
 
@@ -183,7 +183,11 @@ function DatePicker(activator, options = {}) {
 
         if (date && events.onpick) {
             __date.date = parseInt(date);
-            events.onpick(__date);
+            const monthNumber = fixed(months.indexOf(__date.month), 2);
+            events.onpick({
+                ...__date,
+                monthNumber
+            });
         }
     }
 
