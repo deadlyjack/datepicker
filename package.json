@@ -26,11 +26,10 @@
     "build": "webpack"
   },
   "keywords": [
-    "combobox",
-    "select element",
-    "html select",
-    "customized select",
-    "custom select",
-    "custom combobox"
+    "datepicker",
+    "html custom datepicker",
+    "html datepicker",
+    "customized datepicker",
+    "custom datepicker"
   ]
 }
