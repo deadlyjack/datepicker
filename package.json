@@ -24,5 +24,6 @@
   },
   "scripts": {
     "build": "webpack"
-  }
+  },
+  "keywords": ["combobox", "select element", "html select", "customized select", "custom select", "custom combobox"]
 }
