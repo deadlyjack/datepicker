@@ -1,5 +1,7 @@
 # DatePicker
 
+A custom HTML datepicker developed in vanilla JavaScript. Easy to use and user friendly
+
 ## Installation
 
 ```shell
@@ -23,9 +25,10 @@ dateicker.onpick = function(date){
 
 ### Parameters
 
-- activator:*string|HTMLElement*
-- options:*oject* *minYear:number, maxYear:number, defaultDate:string*
+- `activator`: `string`|`HTMLElement`
+- `options`: **`object`** **minYear**`number`, **maxYear**`number`, **defaultDate**`string`
 
-### Returns
+### Methods
 
-- date:*object* *date:number, day:string, month:string, year:number*
+- `onpick`: fires when user picks a date
+  - parameter:**`object`** **date**`number`, **day**`string`, **month**`string`, **year**`number`
