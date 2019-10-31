@@ -30,6 +30,7 @@ function DatePicker(activator, options = {}) {
     };
 
     const defaultDate = formate(options.defaultDate ? new Date(options.defaultDate) : new Date());
+    let highlight = defaultDate;
     /**
      * @type {formatedDate}
      */
@@ -61,6 +62,7 @@ function DatePicker(activator, options = {}) {
         className: 'mask',
         onclick: hide
     });
+    let init = false;
 
     activator.addEventListener('click', render);
 
@@ -177,8 +179,8 @@ function DatePicker(activator, options = {}) {
             dates: plot(__date.year, __date.month)
         });
 
-        if (defaultDate.full === `${__date.month}/${fixed(__date.date, 2)}/${__date.year}`) {
-            $content.get(`[data-date='${defaultDate.date}']`).classList.add('hilight');
+        if (highlight.compare(__date)) {
+            $content.get(`[data-date='${highlight.date}']`).classList.add('hilight');
         }
     }
 
@@ -188,14 +190,18 @@ function DatePicker(activator, options = {}) {
      */
     function handlePick(e) {
         const date = e.target.getAttribute('data-date');
+        const day = e.target.getAttribute('data-day');
 
         if (date && events.onpick) {
             __date.date = parseInt(date);
+            __date.day = day;
             const monthNumber = fixed(months.indexOf(__date.month) + 1, 2);
             events.onpick({
                 ...__date,
                 monthNumber
             });
+            highlight = __date;
+            repaint();
         }
     }
 
@@ -207,15 +213,15 @@ function DatePicker(activator, options = {}) {
     function plot(year, month) {
         const week = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
-        const dates = {
-            row1: [],
-            row2: [],
-            row3: [],
-            row4: [],
-            row5: []
-        };
+        const rows = [
+            [],
+            [],
+            [],
+            [],
+            []
+        ];
         let date = 0;
-        for (let key in dates) {
+        for (let row of rows) {
             for (let j = 0; j < week.length; ++j) {
                 const fdate = formate(new Date(`${month}/${++date}/${year}`));
                 if (fdate) {
@@ -223,19 +229,22 @@ function DatePicker(activator, options = {}) {
 
                     if (diff) {
                         for (let d = 0; d < diff; ++d, ++j) {
-                            dates[key].push('');
+                            row.push('');
                         }
                     }
 
-                    dates[key].push(date + '');
+                    row.push({
+                        date: date + '',
+                        day: fdate.day
+                    });
 
                 } else {
-                    dates[key].push('');
+                    row.push('');
                 }
             }
         }
 
-        return dates;
+        return rows;
     }
 
     /**
@@ -252,11 +261,19 @@ function DatePicker(activator, options = {}) {
 
         const formatedDate = {};
 
-        formatedDate.full = _date.substr(4);
         formatedDate.year = parseInt(ar[3]);
         formatedDate.date = parseInt(ar[2]);
         formatedDate.month = ar[1];
         formatedDate.day = ar[0];
+        formatedDate.compare = compare.bind(formatedDate);
+
+        /**
+         * @this formatedDate
+         * @param {formatedDate} data 
+         */
+        function compare(data) {
+            return (data && this.month === data.month && this.year === data.year);
+        }
 
         return formatedDate;
     }
@@ -278,11 +295,11 @@ function DatePicker(activator, options = {}) {
 
 /**
  * @typedef {object} formatedDate
- * @property {string} full
  * @property {number} date
  * @property {number} year
  * @property {string} month
  * @property {string} day
+ * @property {function(formatedDate):boolean} compare
  */
 
 export default DatePicker;

@@ -10,29 +10,9 @@
     </div>
     {{#dates}}
     <div class="__row">
-        {{#row1}}
-        <span data-date="{{.}}">{{.}}</span>
-        {{/row1}}
-    </div>
-    <div class="__row">
-        {{#row2}}
-        <span data-date="{{.}}">{{.}}</span>
-        {{/row2}}
-    </div>
-    <div class="__row">
-        {{#row3}}
-        <span data-date="{{.}}">{{.}}</span>
-        {{/row3}}
-    </div>
-    <div class="__row">
-        {{#row4}}
-        <span data-date="{{.}}">{{.}}</span>
-        {{/row4}}
-    </div>
-    <div class="__row">
-        {{#row5}}
-        <span data-date="{{.}}">{{.}}</span>
-        {{/row5}}
+        {{#.}}
+        <span data-day="{{day}}" data-date="{{date}}">{{date}}</span>
+        {{/.}}
     </div>
     {{/dates}}
 </div>
