@@ -29,14 +29,10 @@ function DatePicker(activator, options = {}) {
         hide
     };
 
-    const defaultDate = formate(options.defaultDate ? new Date(options.defaultDate) : new Date());
+    const _d = options.defaultDate ? new Date(options.defaultDate) : new Date();
+    const defaultDate = formate(_d);
+    const __date = formate(_d);
     let highlight = defaultDate;
-    /**
-     * @type {formatedDate}
-     */
-    const __date = {
-        ...defaultDate
-    };
 
     delete __date.full;
 
@@ -62,7 +58,6 @@ function DatePicker(activator, options = {}) {
         className: 'mask',
         onclick: hide
     });
-    let init = false;
 
     activator.addEventListener('click', render);
 
@@ -75,8 +70,7 @@ function DatePicker(activator, options = {}) {
             top,
             right,
             left,
-            bottom,
-            height
+            bottom
         } = this.getBoundingClientRect();
 
         $calendar.style.cssText = `top:${bottom}px;right:${innerWidth-right}px`;
@@ -200,7 +194,7 @@ function DatePicker(activator, options = {}) {
                 ...__date,
                 monthNumber
             });
-            highlight = __date;
+            highlight.copy(__date);
             repaint();
         }
     }
@@ -265,15 +259,18 @@ function DatePicker(activator, options = {}) {
         formatedDate.date = parseInt(ar[2]);
         formatedDate.month = ar[1];
         formatedDate.day = ar[0];
-        formatedDate.compare = compare.bind(formatedDate);
 
-        /**
-         * @this formatedDate
-         * @param {formatedDate} data 
-         */
-        function compare(data) {
-            return (data && this.month === data.month && this.year === data.year);
-        }
+        Object.setPrototypeOf(formatedDate, {
+            compare: function (data) {
+                return (data && this.month === data.month && this.year === data.year);
+            },
+            copy: function (date) {
+                this.year = date.year;
+                this.date = date.date;
+                this.month = date.month;
+                this.day = date.day;
+            }
+        });
 
         return formatedDate;
     }
