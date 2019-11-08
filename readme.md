@@ -13,7 +13,7 @@ yarn add datepicker-js
 ```JavaScript
 import datePicker from 'datepicker-js';
 
-datepicker = datePcker(activator, {
+datepicker = datePicker(activator, {
     minYear: 2010,
     maxYear: 2020
 });
