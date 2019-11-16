@@ -150,8 +150,8 @@ function DatePicker(activator, options = {}) {
                 break;
 
             case 'next':
-                if (month === months.length - 1) {
-                    if (__date.year === minYear) return;
+                if (month === 11) {
+                    if (__date.year === maxYear) return;
                     ++__date.year;
                 } else {
                     __date.month = months[++month];
@@ -206,8 +206,10 @@ function DatePicker(activator, options = {}) {
      */
     function plot(year, month) {
         const week = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        const monthNumber = months.indexOf(month);
 
         const rows = [
+            [],
             [],
             [],
             [],
@@ -217,7 +219,9 @@ function DatePicker(activator, options = {}) {
         let date = 0;
         for (let row of rows) {
             for (let j = 0; j < week.length; ++j) {
-                const fdate = formate(new Date(`${month}/${++date}/${year}`));
+                const d = new Date(`${month}/${++date}/${year}`);
+                const isSameMonth = d.getMonth() === monthNumber;
+                const fdate = isSameMonth ? formate(d) : null;
                 if (fdate) {
                     const diff = week.indexOf(fdate.day) - j;
 
@@ -237,6 +241,8 @@ function DatePicker(activator, options = {}) {
                 }
             }
         }
+
+        if (rows.slice(-1).join('').replace(/\,/g, '') === '') rows.pop();
 
         return rows;
     }
