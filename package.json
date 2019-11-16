@@ -1,6 +1,6 @@
 {
   "name": "html-datepicker-js",
-  "version": "1.1.30",
+  "version": "1.1.31",
   "main": "./dist/datepicker.js",
   "license": "MIT",
   "dependencies": {
